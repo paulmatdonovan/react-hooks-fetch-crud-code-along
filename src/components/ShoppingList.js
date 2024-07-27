@@ -12,12 +12,27 @@ function ShoppingList() {
       .then((r) => r.json())
       .then((items) => setItems(items))
   }, []);
+
+  function handleDeleteItem(deletedItem) {
+    console.log("In Shopping Cart:", deletedItem)
+  }
+
   function handleAddItem(newItem) {
     setItems([...items, newItem])
   }
 
   function handleCategoryChange(category) {
     setSelectedCategory(category);
+  }
+  function handleUpdateItem(updatedItem) {
+    const updatedItems = items.map((item) => {
+      if (item.id === updatedItem.id) {
+        return updatedItem;
+      } else {
+        return item;
+      }
+    })
+    setItems(updatedItems)
   }
 
   const itemsToDisplay = items.filter((item) => {
@@ -35,7 +50,7 @@ function ShoppingList() {
       />
       <ul className="Items">
         {itemsToDisplay.map((item) => (
-          <Item key={item.id} item={item} />
+          <Item key={item.id} onUpdateItem={handleUpdateItem} item={item} />
         ))}
       </ul>
     </div>
